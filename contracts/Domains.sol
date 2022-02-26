@@ -3,8 +3,8 @@ pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import {Base64} from "./libraries/Base64.sol";
-import {StringUtils} from "./libraries/StringUtils.sol";
+import {Base64} from "../libraries/Base64.sol";
+import {StringUtils} from "../libraries/StringUtils.sol";
 import "hardhat/console.sol";
 
 contract Domains is ERC721URIStorage {
