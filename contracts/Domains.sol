@@ -33,6 +33,39 @@ contract Domains is ERC721URIStorage {
     string memory finalSvg = string(abi.encodePacked(svgPartOne, _name, svgPartTwo));
     // check current token id on current record
     uint256 newRecordId _tokenIds.current();
+    uint256 length = StringUtils.strlen(name);
+        string memory strLen = Strings.toString(length);
+
+    console.log("Registering %s.%s on the contract with token id: %d", name, tld, newRecordId);
+
+    string memory json = Base64.encode(
+      bytes(
+        string (
+          abi.encodePacked (
+            '{"name": "',
+            _name,
+            '", "description": "A domain on the Hack name service", "image": "data:image/svg+xml;base64"'
+            Base64.encode(bytes(finalSvg)),
+            '","length":"'
+            strLen,
+            '"}'
+          )
+        )
+      )
+    );
+
+    string memory finalTokenUri = string( abni.encodePacked("data:application/json;base64,", json));
+
+        console.log("\n------------------");
+      console.log("Final tokenURI", finalTokenUri);
+      console.log("------------------\n");
+
+    _safeMint(msg.sender, newRecordId);
+    // set URI
+    _setTokenURI(newRecordId, finalTokenUri);
+    domains[name] = msg.sender;
+
+    _tokenIds.increment();
   }
   
   function price(string calldata) public pure returns(uint) {
