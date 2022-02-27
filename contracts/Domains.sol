@@ -26,11 +26,11 @@ contract Domains is ERC721URIStorage {
     console.log("Name service deployed:", _tld);
   }
 
-  function register(string calldata name) public {
+  function register(string calldata name) public payable {
     require(domains[name] == address(0));
 
     uint256 _price = price(name);
-    require(msg.value >= _price, "Not enough Matic paid");
+    require(msg.value >= _price, "Not enough Matic paid!"); 
 
     string memory _name = string(abi.encodePacked(name, ".", tld));
     string memory finalSvg = string(abi.encodePacked(svgPartOne, _name, svgPartTwo));
@@ -71,28 +71,28 @@ contract Domains is ERC721URIStorage {
     _tokenIds.increment();
   }
   
-  function price(string calldata) public pure returns(uint) {
-    uint256 length = StringUtils.strlen(name);
+  function price(string calldata name) public pure returns(uint) {
+    uint len = StringUtils.strlen(name);
     require(len > 0);
     if (len == 3) {
-      return 5 * 10**17;
+      return 5 * 10**17; // 5 MATIC = 5 000 000 000 000 000 000 (18 decimals). We're going with 0.5 Matic cause the faucets don't give a lot
     } else if (len == 4) {
-      return 3 * 10**17;
+      return 3 * 10**17; // To charge smaller amounts, reduce the decimals. This is 0.3
     } else {
       return 1 * 10**17;
     }
-  }
+  } 
   
-  function register(string calldata name) public payable {
-    require(domains[name] == address(0));
+  //function register(string calldata name) public payable {
+    //require(domains[name] == address(0));
 
-    uint _price = price(name);
+    //uint _price = price(name);
 
-    require(msg.value >= _price, "Not enough MATIC paid");
+    //require(msg.value >= _price, "Not enough MATIC paid");
 
-    domains[name] = msg.sender;
-    console.log("%s has registered a domain!", msg.sender);
-  }
+    //domains[name] = msg.sender;
+    //console.log("%s has registered a domain!", msg.sender);
+  //}
 
   function getAddress(string calldata name) public view returns (address) {
     return domains[name];

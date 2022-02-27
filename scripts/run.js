@@ -14,7 +14,7 @@ const main = async () => {
   console.log("Owner of domain hack:", address);
 
   const balance = await hre.ethers.provider.getBalance(domainContract.address);
-  console.log("Contract balance:" hre.ethers.utils.formatEther(balance));
+  console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
 };
 
 const runMain = async() => {
